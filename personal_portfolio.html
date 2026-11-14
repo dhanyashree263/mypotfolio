@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Personal portfolio website">
+  <title>Your Name | Portfolio</title>
+  <style>
+    :root {
+      --navy: #0b1220;
+      --panel: #121d30;
+      --panel-light: #192840;
+      --orange: #ff8a3d;
+      --text: #f4f7fb;
+      --muted: #aab6c8;
+      --line: rgba(255,255,255,.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1100px, 90%); margin: 0 auto; }
+    .accent { color: var(--orange); }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11,18,32,.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .logo { font-size: 1.25rem; font-weight: 800; letter-spacing: .5px; }
+    .logo span { color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: .95rem; transition: color .2s; }
+    .nav-links a:hover, .nav-links a:focus { color: var(--orange); }
+    .menu-button {
+      display: none;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    section { padding: 88px 0; }
+    .eyebrow {
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: .78rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .section-title { font-size: clamp(2rem, 4vw, 2.7rem); margin-bottom: 18px; }
+    .section-intro { color: var(--muted); max-width: 650px; margin-bottom: 34px; }
+
+    .hero {
+      min-height: 570px;
+      display: flex;
+      align-items: center;
+      padding: 100px 0 90px;
+      background:
+        radial-gradient(circle at 85% 25%, rgba(255,138,61,.14), transparent 28%),
+        radial-gradient(circle at 10% 90%, rgba(48,91,145,.18), transparent 30%);
+    }
+    .hero-content { max-width: 760px; }
+    .hero h1 { font-size: clamp(2.7rem, 7vw, 5rem); line-height: 1.08; margin-bottom: 22px; }
+    .hero p { color: var(--muted); font-size: 1.1rem; max-width: 620px; margin-bottom: 30px; }
+    .button {
+      display: inline-block;
+      background: var(--orange);
+      color: #17120f;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-weight: 800;
+      transition: transform .2s, background .2s;
+    }
+    .button:hover { background: #ffa267; transform: translateY(-2px); }
+    .button.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
+      margin-left: 10px;
+    }
+    .button.secondary:hover { border-color: var(--orange); color: var(--orange); }
+
+    .about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 42px; align-items: start; }
+    .about-copy { color: var(--muted); }
+    .about-copy p + p { margin-top: 14px; }
+    .info-card, .skill-card, .project-card, .contact-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .info-card h3 { margin-bottom: 12px; }
+    .info-card p { color: var(--muted); margin: 7px 0; }
+
+    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .skill-card { text-align: center; color: var(--text); font-weight: 700; }
+    .skill-card span { display: block; font-size: 1.7rem; margin-bottom: 8px; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .project-card { display: flex; flex-direction: column; min-height: 255px; }
+    .project-number { color: var(--orange); font-weight: 800; font-size: .85rem; margin-bottom: 15px; }
+    .project-card h3 { font-size: 1.25rem; margin-bottom: 10px; }
+    .project-card p { color: var(--muted); flex: 1; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .tag { color: #ffc49e; background: rgba(255,138,61,.1); padding: 5px 9px; border-radius: 20px; font-size: .78rem; }
+
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .contact-copy { color: var(--muted); }
+    .contact-card p { margin: 10px 0; color: var(--muted); overflow-wrap: anywhere; }
+    .contact-card a { color: var(--orange); }
+    footer { border-top: 1px solid var(--line); padding: 24px 0; color: var(--muted); text-align: center; font-size: .9rem; }
+
+    @media (max-width: 760px) {
+      .menu-button { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        padding: 18px 5%;
+        background: var(--panel);
+        border-bottom: 1px solid var(--line);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .nav-links.open { display: flex; }
+      .about-grid, .contact-wrap { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: 1fr; }
+      section { padding: 68px 0; }
+      .hero { min-height: 500px; }
+      .button.secondary { margin: 12px 0 0; }
+    }
+    @media (max-width: 380px) {
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .hero h1 { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="logo" href="#home">YOUR<span>NAME.</span></a>
+      <button class="menu-button" id="menuButton" aria-label="Open navigation menu" aria-expanded="false">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-content">
+        <div class="eyebrow">Hello, welcome to my portfolio</div>
+        <h1>I'm <span class="accent">Your Name</span>.<br>Future Web Developer.</h1>
+        <p>
+          I'm learning how to build useful, beautiful websites. This portfolio is a
+          little introduction to who I am, what I can do, and what I'm creating.
+        </p>
+        <a class="button" href="#projects">View my work</a>
+        <a class="button secondary" href="#contact">Get in touch</a>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="eyebrow">A little about me</div>
+        <h2 class="section-title">About <span class="accent">Me</span></h2>
+        <div class="about-grid">
+          <div class="about-copy">
+            <p>
+              Hi! I'm <strong>Your Name</strong>, a beginner developer interested in
+              web design and technology. I enjoy learning new things and turning
+              ideas into simple, helpful digital experiences.
+            </p>
+            <p>
+              I'm currently improving my HTML and CSS skills and exploring
+              JavaScript. My goal is to keep practising, build real projects, and
+              become a confident developer.
+            </p>
+          </div>
+          <aside class="info-card">
+            <h3>Quick details</h3>
+            <p><strong>Location:</strong> Your City</p>
+            <p><strong>Learning:</strong> HTML, CSS, JavaScript</p>
+            <p><strong>Interests:</strong> Web design, coding, creativity</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="eyebrow">What I'm learning</div>
+        <h2 class="section-title">My <span class="accent">Skills</span></h2>
+        <p class="section-intro">A few technologies and tools I'm practising. Update this list as you learn more.</p>
+        <div class="skills-grid">
+          <div class="skill-card"><span>🌐</span>HTML</div>
+          <div class="skill-card"><span>🎨</span>CSS</div>
+          <div class="skill-card"><span>⚡</span>JavaScript</div>
+          <div class="skill-card"><span>💻</span>Problem solving</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="eyebrow">Things I've worked on</div>
+        <h2 class="section-title">My <span class="accent">Projects</span></h2>
+        <p class="section-intro">Replace these sample cards with projects you have actually made.</p>
+        <div class="projects-grid">
+          <article class="project-card">
+            <div class="project-number">PROJECT 01</div>
+            <h3>Personal Portfolio</h3>
+            <p>A responsive website that introduces me, highlights my skills, and shares ways to contact me.</p>
+            <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span></div>
+          </article>
+          <article class="project-card">
+            <div class="project-number">PROJECT 02</div>
+            <h3>Landing Page</h3>
+            <p>A clean landing page concept for a product, club, event, or idea.</p>
+            <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span></div>
+          </article>
+          <article class="project-card">
+            <div class="project-number">PROJECT 03</div>
+            <h3>Mini JavaScript App</h3>
+            <p>A small interactive app, such as a to-do list or a simple study timer.</p>
+            <div class="tags"><span class="tag">JavaScript</span><span class="tag">Practice</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="eyebrow">Let's connect</div>
+        <h2 class="section-title">Contact <span class="accent">Me</span></h2>
+        <div class="contact-wrap">
+          <p class="contact-copy">
+            Have a project idea, a question, or want to share feedback? You can
+            reach me using the contact details here.
+          </p>
+          <div class="contact-card">
+            <p><strong>Email:</strong> <a href="mailto:you@example.com">you@example.com</a></p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/yourusername" target="_blank" rel="noopener">github.com/yourusername</a></p>
+            <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/" target="_blank" rel="noopener">Add your profile link</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Your Name. Made with HTML & CSS.</div>
+  </footer>
+
+  <script>
+    // Mobile menu: show or hide the navigation links.
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", isOpen);
+      menuButton.textContent = isOpen ? "✕" : "☰";
+    });
+
+    // Close the mobile menu after a navigation link is selected.
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.textContent = "☰";
+      });
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
